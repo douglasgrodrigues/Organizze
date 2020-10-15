@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 
 public class DataUtil {
 
+    private int teste;
+
     public static String dataAtual(){
 
         long data = System.currentTimeMillis();
