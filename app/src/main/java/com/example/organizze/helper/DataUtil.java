@@ -15,4 +15,16 @@ public class DataUtil {
         return dataString;
 
     }
+
+    public static String mesAnoDataEscolhida(String data){
+
+        String retornoData[] = data.split("/");  //função que parte a data em diversas posições do array conforme caracter escolhido
+        String dia = retornoData[0];  //captura o dia
+        String mes = retornoData[1];       //captura o mes
+        String ano = retornoData[2];    //captura o ano
+
+        String mesAno = mes + ano;   //captura apenas as informações necessário, neste caso mês e ano
+        return mesAno;
+
+    }
 }

@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_principal" />
 
@@ -35,26 +35,24 @@
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_despesa"
-            android:onClick="adicionarDespesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_remove_branco"
-            app:fab_colorNormal="@color/colorPrimaryDespesa"
-            app:fab_label="Despesa"
-            fab:fab_size="mini"
-            />
+            android:onClick="adicionarDespesa"
+            app:srcCompat="@drawable/ic_remove_branco"
+            fab:fab_colorNormal="@color/colorPrimaryDespesa"
+            fab:fab_label="Despesa"
+            fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_receita"
             android:onClick="adicionarReceita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_branco"
-            app:fab_colorNormal="@color/colorPrimaryReceita"
-            app:fab_label="Receita"
+            app:srcCompat="@drawable/ic_add_branco"
+            fab:fab_colorNormal="@color/colorPrimaryReceita"
+            fab:fab_label="Receita"
             fab:fab_size="mini"
             />
-
 
     </com.github.clans.fab.FloatingActionMenu>
 
