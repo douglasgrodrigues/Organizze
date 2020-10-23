@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.organizze.R;
 import com.example.organizze.config.ConfiguracaoFirebase;
 import com.example.organizze.helper.Base64Custom;
-import com.example.organizze.helper.DataUtil;
+import com.example.organizze.helper.DateCustom;
 import com.example.organizze.model.Movimentacao;
 import com.example.organizze.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,7 +41,7 @@ public class DespesasActivity extends AppCompatActivity {
         campoDescricao = findViewById(R.id.editDescricao);
 
         //Preenche o campo data com a date atual
-        campoData.setText( DataUtil.dataAtual() );
+        campoData.setText( DateCustom.dataAtual() );
         recuperarDespesaTotal();
 
     }
@@ -64,6 +64,8 @@ public class DespesasActivity extends AppCompatActivity {
             atualizarDespesa( despesaAtualizada );
 
             movimentacao.salvar( data );
+
+            finish();
 
         }
 
@@ -110,7 +112,7 @@ public class DespesasActivity extends AppCompatActivity {
 
     }
 
-   public void recuperarDespesaTotal(){
+    public void recuperarDespesaTotal(){
 
         String emailUsuario = autenticacao.getCurrentUser().getEmail();
         String idUsuario = Base64Custom.codificarBase64( emailUsuario );

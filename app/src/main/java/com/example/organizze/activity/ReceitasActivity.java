@@ -1,18 +1,16 @@
 package com.example.organizze.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.organizze.R;
 import com.example.organizze.config.ConfiguracaoFirebase;
 import com.example.organizze.helper.Base64Custom;
-import com.example.organizze.helper.DataUtil;
+import com.example.organizze.helper.DateCustom;
 import com.example.organizze.model.Movimentacao;
 import com.example.organizze.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class ReceitasActivity extends AppCompatActivity {
+
 
     private TextInputEditText campoData, campoCategoria, campoDescricao;
     private EditText campoValor;
@@ -36,107 +35,112 @@ public class ReceitasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receitas);
 
-        campoCategoria = findViewById(R.id.editCategoria);
-        campoData = findViewById(R.id.editData);
-        campoDescricao = findViewById(R.id.editDescricao);
         campoValor = findViewById(R.id.editValor);
+        campoData = findViewById(R.id.editData);
+        campoCategoria = findViewById(R.id.editCategoria);
+        campoDescricao = findViewById(R.id.editDescricao);
 
         //Preenche o campo data com a date atual
-        campoData.setText(DataUtil.dataAtual());
-        recuperarDespesaTotal();
+        campoData.setText( DateCustom.dataAtual() );
+        recuperarReceitaTotal();
 
     }
 
-    public void salvarReceita(View view) {
-        if (validarCamposReceita()) {
+    public void salvarReceita(View view){
+
+        if ( validarCamposReceita() ){
 
             movimentacao = new Movimentacao();
             String data = campoData.getText().toString();
             Double valorRecuperado = Double.parseDouble(campoValor.getText().toString());
 
-            movimentacao.setValor(valorRecuperado);
-            movimentacao.setCategoria(campoCategoria.getText().toString());
-            movimentacao.setDescricao(campoDescricao.getText().toString());
-            movimentacao.setData(data);
-            movimentacao.setTipo("r");
+            movimentacao.setValor( valorRecuperado );
+            movimentacao.setCategoria( campoCategoria.getText().toString() );
+            movimentacao.setDescricao( campoDescricao.getText().toString() );
+            movimentacao.setData( data );
+            movimentacao.setTipo( "r" );
 
-            Double receitaAtualiza = receitaTotal + valorRecuperado;
-            atualizarDespesa(receitaAtualiza);
+            Double receitaAtualizada = receitaTotal + valorRecuperado;
+            atualizarReceita( receitaAtualizada );
 
-            movimentacao.salvar(data);
+            movimentacao.salvar( data );
+
+            finish();
 
         }
 
+
     }
 
-    public Boolean validarCamposReceita() {
+    public Boolean validarCamposReceita(){
 
         String textoValor = campoValor.getText().toString();
         String textoData = campoData.getText().toString();
         String textoCategoria = campoCategoria.getText().toString();
         String textoDescricao = campoDescricao.getText().toString();
 
-        if (!textoValor.isEmpty()) {
-            if (!textoData.isEmpty()) {
-                if (!textoCategoria.isEmpty()) {
-                    if (!textoDescricao.isEmpty()) {
+        if ( !textoValor.isEmpty() ){
+            if ( !textoData.isEmpty() ){
+                if ( !textoCategoria.isEmpty() ){
+                    if ( !textoDescricao.isEmpty() ){
                         return true;
-                    } else {
+                    }else {
                         Toast.makeText(ReceitasActivity.this,
                                 "Descrição não foi preenchida!",
                                 Toast.LENGTH_SHORT).show();
                         return false;
                     }
-                } else {
+                }else {
                     Toast.makeText(ReceitasActivity.this,
                             "Categoria não foi preenchida!",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
-            } else {
+            }else {
                 Toast.makeText(ReceitasActivity.this,
                         "Data não foi preenchida!",
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
-        } else {
+        }else {
             Toast.makeText(ReceitasActivity.this,
                     "Valor não foi preenchido!",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
+
     }
 
-    public void recuperarDespesaTotal() {
+    public void recuperarReceitaTotal(){
+
         String emailUsuario = autenticacao.getCurrentUser().getEmail();
-        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
-        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+        String idUsuario = Base64Custom.codificarBase64( emailUsuario );
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child( idUsuario );
 
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue( Usuario.class );
                 receitaTotal = usuario.getReceitaTotal();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
     }
 
-    public void atualizarDespesa(Double receita) {
+    public void atualizarReceita(Double receita){
 
         String emailUsuario = autenticacao.getCurrentUser().getEmail();
-        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
-        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+        String idUsuario = Base64Custom.codificarBase64( emailUsuario );
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child( idUsuario );
 
         usuarioRef.child("receitaTotal").setValue(receita);
 
     }
-
 
 }

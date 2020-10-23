@@ -19,8 +19,8 @@ public class Usuario {
     public void salvar(){
         DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDataBase();
         firebase.child("usuarios")
-                .child(this.idUsuario)
-                .setValue(this);
+                .child( this.idUsuario )
+                .setValue( this );
     }
 
     public Double getReceitaTotal() {
@@ -39,16 +39,17 @@ public class Usuario {
         this.despesaTotal = despesaTotal;
     }
 
-    public String getNome() {
-        return nome;
-    }
-    @Exclude  //Anotação para excluir os campos que não precisam ser considerados ao salvar
+    @Exclude
     public String getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -62,7 +63,8 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Exclude //Anotação para excluir os campos que não precisam ser considerados ao salvar
+
+    @Exclude
     public String getSenha() {
         return senha;
     }

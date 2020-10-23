@@ -2,7 +2,7 @@ package com.example.organizze.model;
 
 import com.example.organizze.config.ConfiguracaoFirebase;
 import com.example.organizze.helper.Base64Custom;
-import com.example.organizze.helper.DataUtil;
+import com.example.organizze.helper.DateCustom;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
@@ -17,20 +17,21 @@ public class Movimentacao {
     public Movimentacao() {
     }
 
-    public void salvar(String dataEscolhida) {
+    public void salvar(String dataEscolhida){
 
-        FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();  //acessa o firebase para obter o email cadastrado
-        String idUsuario = Base64Custom.codificarBase64(autenticacao.getCurrentUser().getEmail()); //retorna o emai do usuario logado
-        String mesAno = DataUtil.mesAnoDataEscolhida(dataEscolhida);
+        FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        String idUsuario = Base64Custom.codificarBase64( autenticacao.getCurrentUser().getEmail() );
+        String mesAno = DateCustom.mesAnoDataEscolhida( dataEscolhida );
+
 
         DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDataBase();
         firebase.child("movimentacao")
-                .child(idUsuario)  //exibe o email do usuario logado
-                .child(mesAno)
+                .child( idUsuario )
+                .child( mesAno )
                 .push()
                 .setValue(this);
-    }
 
+    }
 
     public String getData() {
         return data;
@@ -64,11 +65,11 @@ public class Movimentacao {
         this.tipo = tipo;
     }
 
-    public Double getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 }

@@ -22,50 +22,41 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 public class MainActivity extends IntroActivity {
 
-    private Button buttonCadastro;
     private FirebaseAuth autenticacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);   COMENTAR PARA UTILIZAR O SLIDER
-
+        //setContentView(R.layout.activity_main);
 
         setButtonBackVisible(false);
         setButtonNextVisible(false);
 
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
+        addSlide( new FragmentSlide.Builder()
+                .background(android.R.color.white)
                 .fragment(R.layout.intro_1)
-                .build()
-        );
+                .build());
 
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
+        addSlide( new FragmentSlide.Builder()
+                .background(android.R.color.white)
                 .fragment(R.layout.intro_2)
-                .build()
-        );
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
+                .build());
+
+        addSlide( new FragmentSlide.Builder()
+                .background(android.R.color.white)
                 .fragment(R.layout.intro_3)
-                .build()
-        );
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
+                .build());
+
+        addSlide( new FragmentSlide.Builder()
+                .background(android.R.color.white)
                 .fragment(R.layout.intro_4)
-                //.canGoBackward(true)
+                .build());
 
-                .build()
-        );
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.white)
+        addSlide( new FragmentSlide.Builder()
+                .background(android.R.color.white)
                 .fragment(R.layout.intro_cadastro)
-                //.canGoBackward(true)
-                .canGoForward(false)
-                .build()
-        );
+                .build());
 
-        buttonCadastro = findViewById(R.id.buttonCadastro);
 
     }
 
@@ -75,7 +66,9 @@ public class MainActivity extends IntroActivity {
         verificarUsuarioLogado();
     }
 
-    public void btEntrar(View view){startActivity(new Intent(this, LoginActivity.class));}
+    public void btEntrar(View view){
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 
     public void btCadastrar(View view){
         startActivity(new Intent(this, CadastroActivity.class));
@@ -84,13 +77,12 @@ public class MainActivity extends IntroActivity {
     public void verificarUsuarioLogado(){
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         //autenticacao.signOut();
-        if (autenticacao.getCurrentUser() != null){
+        if( autenticacao.getCurrentUser() != null ){
             abrirTelaPrincipal();
-
         }
     }
 
-    public void abrirTelaPrincipal() {
+    public void abrirTelaPrincipal(){
         startActivity(new Intent(this, PrincipalActivity.class));
     }
 
